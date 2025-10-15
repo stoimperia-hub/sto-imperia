@@ -1,0 +1,46 @@
+# Robots.txt для Автосервис Империя
+# https://sto-imperia.by
+
+User-agent: *
+Allow: /
+
+# Разрешить индексацию всех страниц
+Allow: /about
+Allow: /services
+Allow: /works
+Allow: /contacts
+
+# Запретить индексацию технических файлов
+Disallow: /api/
+Disallow: /_next/
+Disallow: /.vercel/
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://sto-imperia.by/sitemap.xml
+
+# Дополнительные настройки для поисковых роботов
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Социальные роботы
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Telegram
+Allow: /

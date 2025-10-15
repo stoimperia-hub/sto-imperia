@@ -1,0 +1,42 @@
+{
+  "name": "Автосервис Империя - Брест",
+  "short_name": "Империя Авто",
+  "description": "Ремонт и обслуживание легковых и грузовых автомобилей Iveco в Бресте. Диагностика, ТО, замена масла, ГРМ, тормозных колодок.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#FDCD00",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "ru",
+  "dir": "ltr",
+  "categories": ["business", "automotive"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/logo-imper.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-imper.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/hero-car.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Автосервис Империя - главная страница"
+    }
+  ]
+}

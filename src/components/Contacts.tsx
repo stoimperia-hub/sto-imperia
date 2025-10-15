@@ -4,7 +4,7 @@ const INSTAGRAM = "https://www.instagram.com/sto_imperia/";
 
 export default function Contacts() {
   return (
-    <section id="contacts" className="section">
+    <section id="contacts" className="section" itemScope itemType="https://schema.org/AutoRepair">
       <div className="container">
         <h2 className="text-3xl md:text-4xl font-bold">Контакты</h2>
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
@@ -13,18 +13,22 @@ export default function Contacts() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="card p-6">
+            <div className="card p-6" itemScope itemType="https://schema.org/PostalAddress">
               <div className="text-brand-gray">Адрес</div>
-              <div className="mt-1 text-lg font-semibold">{ADDRESS}</div>
+              <div className="mt-1 text-lg font-semibold" itemProp="streetAddress">{ADDRESS}</div>
+              <meta itemProp="addressLocality" content="Брест" />
+              <meta itemProp="addressRegion" content="Брестская область" />
+              <meta itemProp="addressCountry" content="BY" />
               <div className="mt-4 text-brand-gray">Телефон</div>
               <a
                 className="mt-1 inline-block text-lg font-semibold text-brand-yellow"
-                href={`tel:${PHONE.replace(/[^+\d]/g, "")}`}>
+                href={`tel:${PHONE.replace(/[^+\d]/g, "")}`}
+                itemProp="telephone">
                 {PHONE}
               </a>
               <div className="mt-4 text-brand-gray">Соцсети</div>
               <div className="mt-1 flex gap-3">
-                <a className="btn-outline" href={INSTAGRAM} target="_blank">
+                <a className="btn-outline" href={INSTAGRAM} target="_blank" rel="noopener noreferrer" itemProp="sameAs">
                   Instagram
                 </a>
               </div>
