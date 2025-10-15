@@ -13,6 +13,21 @@ function sanitize(s?: string) {
 
 export async function POST(req: Request) {
   try {
+    // Проверяем переменные окружения
+    if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !MAIL_FROM || !MAIL_TO) {
+      console.error("Missing required environment variables:", {
+        SMTP_HOST: !!SMTP_HOST,
+        SMTP_USER: !!SMTP_USER,
+        SMTP_PASS: !!SMTP_PASS,
+        MAIL_FROM: !!MAIL_FROM,
+        MAIL_TO: !!MAIL_TO,
+      });
+      return NextResponse.json(
+        { ok: false, error: "server_config_error" },
+        { status: 500 }
+      );
+    }
+
     const form = await req.formData().catch(() => null);
     const json = !form ? await req.json().catch(() => ({})) : {};
 
@@ -46,13 +61,21 @@ export async function POST(req: Request) {
       auth: { user: SMTP_USER, pass: SMTP_PASS },
     });
 
-    await transporter.sendMail({
-      from: MAIL_FROM,
-      to: MAIL_TO,
-      subject: "Заявка с сайта — Империя",
-      text: message,
-      html: message.replace(/\n/g, "<br>"),
-    });
+    try {
+      await transporter.sendMail({
+        from: MAIL_FROM,
+        to: MAIL_TO,
+        subject: "Заявка с сайта — Империя",
+        text: message,
+        html: message.replace(/\n/g, "<br>"),
+      });
+    } catch (mailError) {
+      console.error("Mail sending error:", mailError);
+      return NextResponse.json(
+        { ok: false, error: "mail_send_failed" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({ ok: true, sent: ["email"] });
   } catch (e) {
