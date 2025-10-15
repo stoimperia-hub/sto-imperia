@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 type Service = {
   title: string;
@@ -66,49 +66,6 @@ export default function Services() {
   const [i, setI] = useState(0);
   const s = SERVICES[i];
 
-  const startX = useRef(0);
-  const startY = useRef(0);
-  const dx = useRef(0);
-  const dy = useRef(0);
-  const swiping = useRef(false);
-
-  const THRESHOLD = 48; // пикселей для срабатывания свайпа
-
-  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    const t = e.touches[0];
-    startX.current = t.clientX;
-    startY.current = t.clientY;
-    dx.current = 0;
-    dy.current = 0;
-    swiping.current = true;
-  };
-
-  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!swiping.current) return;
-    const t = e.touches[0];
-    dx.current = t.clientX - startX.current;
-    dy.current = t.clientY - startY.current;
-
-    // если вертикаль преобладает — не считаем это свайпом (даём странице скроллиться)
-    if (Math.abs(dy.current) > Math.abs(dx.current)) return;
-
-    // Можно отменить горизонтальную прокрутку страницы (необязательно)
-    // e.preventDefault();
-  };
-
-  const onTouchEnd = () => {
-    if (!swiping.current) return;
-    swiping.current = false;
-
-    if (
-      Math.abs(dx.current) > Math.abs(dy.current) &&
-      Math.abs(dx.current) > THRESHOLD
-    ) {
-      if (dx.current < 0) next(); // свайп влево -> следующая
-      else prev(); // свайп вправо -> предыдущая
-    }
-  };
-
   const prev = () => setI((p) => (p - 1 + SERVICES.length) % SERVICES.length);
   const next = () => setI((p) => (p + 1) % SERVICES.length);
 
@@ -134,23 +91,20 @@ export default function Services() {
             </p>{" "}
           </div>
 
-          {/* Карусель с выбранной услугой — свайпы на мобиле */}
+          {/* Карусель с выбранной услугой */}
           <div
             className="relative"
-            style={{ minHeight: "295px" }}
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}>
-            {/* Стрелки (десктоп) */}
+            style={{ minHeight: "295px" }}>
+            {/* Стрелки */}
             <button
               onClick={prev}
-              className="absolute -left-3 top-1/2 -translate-y-1/2 hidden sm:flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 hover:bg-black/80"
+              className="absolute -left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 hover:bg-black/80"
               aria-label="Предыдущая услуга">
               ←
             </button>
             <button
               onClick={next}
-              className="absolute -right-3 top-1/2 -translate-y-1/2 hidden sm:flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 hover:bg-black/80"
+              className="absolute -right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 hover:bg-black/80"
               aria-label="Следующая услуга">
               →
             </button>
