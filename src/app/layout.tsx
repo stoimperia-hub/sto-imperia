@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const inter = Inter({ 
   subsets: ["latin", "cyrillic"],
@@ -230,7 +231,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-title" content="Империя Автосервис" />
         <meta name="application-name" content="Империя Автосервис" />
       </head>
-      <body className={`${inter.variable} font-sans`}>{children}</body>
+      <body className={`${inter.variable} font-sans`}>
+        {children}
+        <ScrollToTop />
+      </body>
     </html>
   );
 }

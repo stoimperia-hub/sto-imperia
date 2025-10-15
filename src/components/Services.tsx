@@ -21,8 +21,6 @@ const SERVICES: Service[] = [
   { title: "Подбор и продажа запчастей", price: "Выгодные цены", desc: "Оригинал и проверенные аналоги.", img: "/services/parts.png" },
 ];
 
-const PHONE = "+375 (33) 657-55-75";
-
 /** Хук для брейкпоинта: мобилка < 640px */
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
