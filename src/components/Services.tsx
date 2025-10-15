@@ -115,7 +115,7 @@ export default function Services() {
             {/* Стрелки (только ≥ sm) */}
             <button
               onClick={prev}
-              className="absolute -left-3 top-1/2 -translate-y-1/2 hidden sm:flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 hover:bg-black/80"
+              className="absolute left-2 top-1/2 -translate-y-1/2 hidden sm:flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/60 hover:bg-black/80 z-10"
               aria-label="Предыдущая услуга"
               type="button"
             >
@@ -123,7 +123,7 @@ export default function Services() {
             </button>
             <button
               onClick={next}
-              className="absolute -right-3 top-1/2 -translate-y-1/2 hidden sm:flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 hover:bg-black/80"
+              className="absolute right-2 top-1/2 -translate-y-1/2 hidden sm:flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/60 hover:bg-black/80 z-10"
               aria-label="Следующая услуга"
               type="button"
             >
