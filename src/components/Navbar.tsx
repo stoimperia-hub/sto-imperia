@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NavbarLogo from "./NavbarLogo";
 
 const PHONE = "+375 (33) 657-55-75";
@@ -8,18 +8,6 @@ const INSTAGRAM = "https://www.instagram.com/sto_imperia/";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [open]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur">
@@ -61,7 +49,7 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-white/10 bg-black h-screen">
+        <div className="md:hidden border-t border-white/10 bg-black h-screen w-full">
           <div className="container flex flex-col gap-5 py-5 h-full">
             <a href="#about" onClick={() => setOpen(false)} className="text-lg font-bold">
               О нас
