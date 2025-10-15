@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { useSwipe } from "../hooks/useSwipe";
 
 type Service = {
   title: string;
@@ -66,51 +67,15 @@ export default function Services() {
   const [i, setI] = useState(0);
   const s = SERVICES[i];
 
-  const startX = useRef(0);
-  const startY = useRef(0);
-  const dx = useRef(0);
-  const dy = useRef(0);
-  const swiping = useRef(false);
-
-  const THRESHOLD = 48; // пикселей для срабатывания свайпа
-
-  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    const t = e.touches[0];
-    startX.current = t.clientX;
-    startY.current = t.clientY;
-    dx.current = 0;
-    dy.current = 0;
-    swiping.current = true;
-  };
-
-  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!swiping.current) return;
-    const t = e.touches[0];
-    dx.current = t.clientX - startX.current;
-    dy.current = t.clientY - startY.current;
-
-    // если вертикаль преобладает — не считаем это свайпом (даём странице скроллиться)
-    if (Math.abs(dy.current) > Math.abs(dx.current)) return;
-
-    // Можно отменить горизонтальную прокрутку страницы (необязательно)
-    // e.preventDefault();
-  };
-
-  const onTouchEnd = () => {
-    if (!swiping.current) return;
-    swiping.current = false;
-
-    if (
-      Math.abs(dx.current) > Math.abs(dy.current) &&
-      Math.abs(dx.current) > THRESHOLD
-    ) {
-      if (dx.current < 0) next(); // свайп влево -> следующая
-      else prev(); // свайп вправо -> предыдущая
-    }
-  };
-
   const prev = () => setI((p) => (p - 1 + SERVICES.length) % SERVICES.length);
   const next = () => setI((p) => (p + 1) % SERVICES.length);
+
+  const swipe = useSwipe({
+    onSwipeLeft: next,
+    onSwipeRight: prev,
+    threshold: 48,
+    velocity: 0.5,
+  });
 
   return (
     <section id="services" className="section bg-neutral-950/30">
@@ -118,29 +83,29 @@ export default function Services() {
         <div className="grid gap-10 lg:grid-cols-2 items-start">
           {/* Левый текстовый блок */}
           <div>
-            {" "}
-            <p className="text-brand-yellow font-semibold uppercase">
-              Наши
-            </p>{" "}
+            <p className="text-brand-yellow font-semibold uppercase">Наши</p>
             <h2 className="mt-2 text-3xl md:text-5xl font-extrabold">
-              {" "}
-              Услуги и цены{" "}
-            </h2>{" "}
+              Услуги и цены
+            </h2>
             <p className="mt-4 text-brand-gray max-w-prose">
-              {" "}
               Мы работаем с профессиональным оборудованием и запчастями,
               согласуем смету до начала работ и соблюдаем сроки. Для записи —
-              позвоните нам или оставьте заявку.{" "}
-            </p>{" "}
+              позвоните нам или оставьте заявку.
+            </p>
           </div>
 
-          {/* Карусель с выбранной услугой — свайпы на мобиле */}
+          {/* Карусель (свайп по всей области) */}
           <div
-            className="relative"
-            style={{ minHeight: "295px" }}
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}>
+            className="relative select-none" // выключаем выделение текста при свайпе
+            style={{
+              minHeight: 295,
+              touchAction: "pan-y", // КЛЮЧЕВОЕ: разрешаем вертикальный скролл
+              WebkitTouchCallout: "none", // немного UX-плюшек для iOS
+            }}
+            onPointerDown={swipe.onPointerDown}
+            onPointerMove={swipe.onPointerMove}
+            onPointerUp={swipe.onPointerUp}
+            onPointerCancel={swipe.onPointerCancel}>
             {/* Стрелки (десктоп) */}
             <button
               onClick={prev}
@@ -163,7 +128,8 @@ export default function Services() {
                   src={s.img ?? "/services/placeholder.png"}
                   alt={s.title}
                   fill
-                  className="object-contain drop-shadow-[0_10px_30px_rgba(253,205,0,0.25)]"
+                  draggable={false} // важно для iOS/Android/десктоп — чтобы не стартовал drag
+                  className="object-contain drop-shadow-[0_10px_30px_rgba(253,205,0,0.25)] pointer-events-none"
                   sizes="(max-width: 640px) 100vw, 360px"
                   priority
                 />
@@ -216,7 +182,7 @@ export default function Services() {
           </div>
         </div>
 
-        {/* Сетка карточек ниже (быстрый выбор) — оставлена только для ≥ lg */}
+        {/* Сетка карточек ниже (≥ lg) */}
         <div className="mt-10 hidden lg:grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map((item, idx) => (
             <button
@@ -228,7 +194,8 @@ export default function Services() {
                   src={item.img ?? "/services/placeholder.png"}
                   alt=""
                   fill
-                  className="object-cover opacity-20 group-hover:opacity-35 transition"
+                  draggable={false}
+                  className="object-cover opacity-20 group-hover:opacity-35 transition pointer-events-none"
                   sizes="(max-width: 1024px) 50vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
