@@ -99,7 +99,7 @@ export const metadata: Metadata = {
     "geo.position": "52.098;23.687",
     "ICBM": "52.098, 23.687",
     "format-detection": "telephone=no",
-    "apple-mobile-web-app-capable": "yes",
+    "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
     "theme-color": "#FDCD00",
     "msapplication-TileColor": "#FDCD00",
