@@ -2,19 +2,19 @@
   "name": "imperia-autoservice",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "export": "next build && next export",
-    "start": "node server.js",
+    "start": "node app.js",
     "lint": "eslint"
   },
   "dependencies": {
     "next": "15.5.4",
     "nodemailer": "^7.0.9",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "typescript": "5.9.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -25,7 +25,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "tailwindcss": "^4"
   }
 }
