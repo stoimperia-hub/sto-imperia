@@ -2,7 +2,7 @@ import { createServer } from 'node:http';
 import next from 'next';
 
 const dev = false;
-const app = next({ dev, dir: __dirname });
+const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const port = process.env.PORT || 3000;
