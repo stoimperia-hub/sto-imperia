@@ -83,8 +83,8 @@ export const metadata: Metadata = {
     images: ["/hero-car.png"],
   },
   verification: {
-    google: "your-google-verification-code", // Замените на ваш код верификации Google
-    yandex: "your-yandex-verification-code", // Замените на ваш код верификации Яндекс
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || "your-google-verification-code", 
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || "your-yandex-verification-code", 
   },
   alternates: {
     canonical: "/",
