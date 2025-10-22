@@ -2,10 +2,12 @@
   "name": "imperia-autoservice",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "next start",
+    "export": "next build && next export",
+    "start": "node server.js",
     "lint": "eslint"
   },
   "dependencies": {

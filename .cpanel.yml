@@ -1,0 +1,31 @@
+---
+deployment:
+  tasks:
+    # Пути
+    - export APP_ROOT=/home/stoimperia/apps/imperia
+    - export NODE_ENV=production
+
+    # Готовим директорию приложения
+    - mkdir -p $APP_ROOT
+
+    # Копируем код из репозитория (со скрытыми файлами), очищаем лишнее
+    - rsync -a --delete --exclude=".git" --exclude="node_modules" --exclude=".next" --exclude=".cpanel.yml" ./ $APP_ROOT/
+
+    # Ставим зависимости и собираем
+    - cd $APP_ROOT
+    - npm ci
+    - npm run build
+
+    # Опционально: сжимаем прод-окружение, если нужно экономить место
+    - npm prune --production
+
+    # Переменные окружения
+    - cp -n .env.production .env.local || true
+
+    # Права
+    - find $APP_ROOT -type d -exec chmod 755 {} \;
+    - find $APP_ROOT -type f -name "*.js" -o -name "*.json" -o -name "*.css" -exec chmod 644 {} \;
+
+    # Passenger (cPanel Application Manager) — мягкий перезапуск приложения
+    - mkdir -p $APP_ROOT/tmp
+    - touch $APP_ROOT/tmp/restart.txt

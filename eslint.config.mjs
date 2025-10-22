@@ -20,6 +20,16 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    "overrides": [
+      {
+        "files": ["server.js"],
+        "rules": {
+          "@typescript-eslint/no-require-imports": "off"
+        }
+      }
+    ]
+  }
 ];
 
 export default eslintConfig;
